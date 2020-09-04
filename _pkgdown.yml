@@ -1,1 +1,18 @@
-destination: docs
+reference:
+  - title: Functions
+  - contents:
+    - has_keyword("function")
+  - title: Datasets
+  - contents:
+    - has_keyword("dataset")
+
+navbar:
+  structure:
+    left:  [home, intro, articles, reference, news]
+
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: A basic example
+        href: articles/boxplots.html

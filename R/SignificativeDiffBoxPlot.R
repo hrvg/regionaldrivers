@@ -9,6 +9,7 @@
 #' @param step_increase `numeric`, graphical parameter
 #' @importFrom magrittr %>%
 #' @export
+#' @keywords function
 #' @returns a named list with two elements `p` a `ggplot` plot and `stats` the statistics table of the test
 SignificativeDiffBoxPlot <- function(melted, type = "Tukey", padjmeth = "holm", ypos = 1.5, step_increase = 0.1){
 	stat.test <- switch(type, 

@@ -29,3 +29,4 @@ a named list with two elements `p` a `ggplot` plot and `stats` the statistics ta
 \description{
 This is a convenience function wrapper around rstatix and ggpubr functions.
 }
+\keyword{function}
