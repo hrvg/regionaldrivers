@@ -1,0 +1,26 @@
+Package: regionaldrivers
+Title: Statistical analysis of regional drivers for classifications
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Hervé",
+           family = "Guillon",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Statistical analysis of regional drivers for classifications
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+  dplyr,
+  ggplot2,
+  ggpubr,
+  magrittr,
+  plotly,
+  reshape2,
+  rstatix
+LazyData: true
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 7.0.2

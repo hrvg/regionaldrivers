@@ -1,0 +1,51 @@
+---
+title: "A basic example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{A basic example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Libraries
+
+```{r setup}
+library(regionaldrivers)
+library(magrittr)
+```
+
+# Data loading
+
+`SSCT_data` is loaded with the package.
+Here is what it looks like:
+
+```{r data_loading}
+head(SSCT_data)
+```
+
+# Data transformation
+
+We transform the data to retain what we need for the analysis:
+
+```{r melting}
+SSCT_data <- na.omit(SSCT_data) %>%
+	dplyr::select(c("SLOPE", "RUSLE", "ward"))	%>%
+	dplyr::rename(ward.grp = ward) %>%
+	reshape2::melt(id.vars = "ward.grp")
+head(SSCT_data)
+```
+
+# Statistical testing and visualization
+
+We can now visualize the results from a pair-wise statistical comparison with `SignificativeDiffBoxPlot()`.
+
+```{r viz, fig.width = 7, fig.height = 7}
+SignificativeDiffBoxPlot(SSCT_data, type = "Dunn", padjmeth = "holm")$p %>% plotly::ggplotly()
+```
