@@ -21,6 +21,8 @@ Imports:
 LazyData: true
 Suggests: 
     knitr,
-    rmarkdown
+    testthat,
+    rmarkdown,
+    pkgdown    
 VignetteBuilder: knitr
 RoxygenNote: 7.0.2
