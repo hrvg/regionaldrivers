@@ -12,6 +12,7 @@
 #' @keywords function
 #' @returns a named list with two elements `p` a `ggplot` plot and `stats` the statistics table of the test
 SignificativeDiffBoxPlot <- function(melted, type = "Tukey", padjmeth = "holm", ypos = 1.5, step_increase = 0.1){
+	melted <- dplyr::group_by(melted, variable)
 	stat.test <- switch(type, 
 		"Dunn" = melted %>% rstatix::dunn_test(value ~ ward.grp, p.adjust.method = padjmeth),
 		"Tukey" = melted %>% rstatix::tukey_hsd(value ~ ward.grp, p.adjust.method = padjmeth),
@@ -25,10 +26,11 @@ SignificativeDiffBoxPlot <- function(melted, type = "Tukey", padjmeth = "holm", 
 		facet.by = "variable",
 		scales = "free",
 		title = paste(type, padjmeth, sep = ", ")) +
-		ggpubr::stat_pvalue_manual(stat.test, 
+		ggpubr::stat_pvalue_manual(
+			stat.test %>% as.data.frame(), 
 			label = "p.adj.signif", 
 			step.increase = step_increase, 
-			step.group.by = "variable", 
+			step.group.by = c("variable"), 
 			hide.ns = TRUE)
 	return(list(p = p, stats = stat.test))	
 }

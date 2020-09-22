@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(regionaldrivers)
 library(magrittr)
+library(ggplot2)
 ```
 
 # Data loading
@@ -27,7 +28,10 @@ library(magrittr)
 Here is what it looks like:
 
 ```{r data_loading}
-head(SSCT_data)
+SSCT_labelled_data %>% dplyr::sample_n(10) %>%
+	knitr::kable(digits = 3, format = "html", caption = "benchmark results") %>% 
+	kableExtra::kable_styling(bootstrap_options = c("hover", "condensed")) %>% 
+	kableExtra::scroll_box(width = "7in", height = "5in")
 ```
 
 # Data transformation
@@ -35,11 +39,11 @@ head(SSCT_data)
 We transform the data to retain what we need for the analysis:
 
 ```{r melting}
-SSCT_data <- na.omit(SSCT_data) %>%
+drivers_data <- cbind(SSCT_labelled_data, SSCT_data) %>%
 	dplyr::select(c("SLOPE", "RUSLE", "ward"))	%>%
 	dplyr::rename(ward.grp = ward) %>%
 	reshape2::melt(id.vars = "ward.grp")
-head(SSCT_data)
+head(drivers_data)
 ```
 
 # Statistical testing and visualization
@@ -47,5 +51,5 @@ head(SSCT_data)
 We can now visualize the results from a pair-wise statistical comparison with `SignificativeDiffBoxPlot()`.
 
 ```{r viz, fig.width = 7, fig.height = 7}
-SignificativeDiffBoxPlot(SSCT_data, type = "Dunn", padjmeth = "holm")$p %>% plotly::ggplotly()
+SignificativeDiffBoxPlot(drivers_data, type = "Dunn", padjmeth = "holm")$p
 ```
