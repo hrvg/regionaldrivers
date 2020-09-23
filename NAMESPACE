@@ -3,6 +3,7 @@
 export(bootstrap_freq)
 export(plot_bootstrap_probability)
 export(plot_bootstrap_pvalue)
+export(plot_pairwise_pvalue)
 export(significative_diff_boxplot)
 import(ggplot2)
 importFrom(magrittr,"%>%")
