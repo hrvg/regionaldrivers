@@ -76,6 +76,6 @@ plotly::ggplotly(
 
 plotly::ggplotly(
 	plot_bootstrap_probability(l_boot),
-	tooltip = c("channel_type", "number of groupings", "prob")
+	tooltip = c("channel_type", "number_groupings", "probability")
 )	
 ```

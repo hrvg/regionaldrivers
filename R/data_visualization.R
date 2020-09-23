@@ -33,14 +33,14 @@ plot_bootstrap_pvalue <- function(l_boot){
 #' @keywords function
 #' @import ggplot2
 plot_bootstrap_probability <- function(l_boot){
-	viz_prob <- l_boot[[2]] %>% 
+	viz_probability <- l_boot[[2]] %>% 
 		dplyr::mutate(number_groupings = row.names(.)) %>% 
 		reshape2::melt(id.vars = "number_groupings") %>% 
 		dplyr::rename(channel_type = variable) %>%
 		dplyr::mutate_if(is.character, as.factor) %>%
-		dplyr::mutate(prob = signif(value, 2)) %>%
+		dplyr::mutate(probability = signif(value, 2)) %>%
 		dplyr::mutate(number_groupings = forcats::fct_rev(number_groupings))
-	p <- ggplot(viz_prob, aes(x = channel_type, y = number_groupings, fill = value, group = prob)) +
+	p <- ggplot(viz_probability, aes(x = channel_type, y = number_groupings, fill = value, group = probability)) +
 		geom_tile(color = "white") +
 		scale_fill_viridis_c(option = "viridis", direction = 1, begin = 0, end = 1, limits = c(0,1))  +
 		labs(fill = "p-value",
