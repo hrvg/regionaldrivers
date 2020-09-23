@@ -22,6 +22,7 @@ Imports:
   magrittr,
   plotly,
   raster,
+  rgdal,
   reshape2,
   rstatix,
   sp
