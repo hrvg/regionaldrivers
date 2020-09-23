@@ -21,7 +21,8 @@ knitr::opts_chunk$set(
 # Libraries
 
 ```{r setup}
-library(regionaldrivers)
+# library(regionaldrivers)
+devtools::load_all()
 library(magrittr)
 ```
 
@@ -60,7 +61,14 @@ head(drivers_data)
 
 We can now visualize the results from a pair-wise statistical comparison with `significative_diff_boxplot()`.
 
-```{r viz}
-significative_diff_boxplot(drivers_data, type = "Dunn", padjmeth = "holm")$p
+```{r viz box plots}
+Dunn_results <- significative_diff_boxplot(drivers_data, type = "Dunn", padjmeth = "holm")
+Dunn_results$p
 ```
 
+```{r}
+plotly::ggplotly(
+	plot_pairwise_pvalue(Dunn_results$stats),
+	tooltip = c("group1", "group2", "p.value")
+)	
+```

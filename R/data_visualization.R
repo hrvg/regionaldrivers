@@ -53,3 +53,28 @@ plot_bootstrap_probability <- function(l_boot){
 		coord_fixed(ratio = 1)
 	return(p)
 }
+
+#' Visualize the p-value result from the statistical pair-wise analysis
+#' @param l_boot a `list` generated with `bootstrap_freq()`
+#' @return a `ggplot` object
+#' @export 
+#' @keywords function
+#' @import ggplot2
+plot_pairwise_pvalue <- function(stats){
+	stats$group1 <- forcats::fct_reorder(stats$group1, as.numeric(stats$group1))
+	stats$group2 <- forcats::fct_reorder(stats$group2, as.numeric(stats$group2))
+	viz_pvalue <- stats %>% dplyr::mutate(p.value = signif(p.adj, 2))
+	p <- ggplot2::ggplot(viz_pvalue, ggplot2::aes(x = group1, y = group2, fill = p.adj, group = p.value)) +
+		ggplot2::geom_tile(color = "white") +
+		ggplot2::scale_fill_viridis_c(option = "viridis", direction = 1, begin = 0, end = 1, limits = c(0,1))  +
+		ggplot2::labs(fill = "p-value",
+			x = "channel type",
+			y = "channel type",
+			title = "Pair-wise comparison results (p-value)"
+			) +
+		ggplot2::theme(panel.grid.major = ggplot2::element_blank(), panel.grid.minor = ggplot2::element_blank()) +
+		ggpubr::theme_pubr() +
+		ggplot2::facet_grid(~ variable) +
+		ggplot2::coord_fixed(ratio = 1)
+	return(p)	
+}

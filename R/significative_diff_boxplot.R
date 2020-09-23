@@ -13,12 +13,12 @@
 #' @returns a named list with two elements `p` a `ggplot` plot and `stats` the statistics table of the test
 significative_diff_boxplot <- function(melted, type = "Tukey", padjmeth = "holm", ypos = 1.5, step_increase = 0.1){
 	melted <- dplyr::group_by(melted, variable)
-	stat.test <- switch(type, 
+	stat_test <- switch(type, 
 		"Dunn" = melted %>% rstatix::dunn_test(value ~ ward.grp, p.adjust.method = padjmeth),
 		"Tukey" = melted %>% rstatix::tukey_hsd(value ~ ward.grp, p.adjust.method = padjmeth),
 		"Wilcox" = melted %>% rstatix::wilcox_test(value ~ ward.grp, p.adjust.method = padjmeth)
 		)
-	stat.test <- merge(stat.test, dplyr::summarize_at(melted, "value", max) %>% dplyr::rename(y.position = value))
+	stat_test <- merge(stat_test, dplyr::summarize_at(melted, "value", max) %>% dplyr::rename(y.position = value))
 	p <- ggpubr::ggboxplot(melted, 
 		x = "ward.grp", 
 		y = "value", 
@@ -27,10 +27,10 @@ significative_diff_boxplot <- function(melted, type = "Tukey", padjmeth = "holm"
 		scales = "free",
 		title = paste(type, padjmeth, sep = ", ")) +
 		ggpubr::stat_pvalue_manual(
-			stat.test %>% as.data.frame(), 
+			stat_test %>% as.data.frame(), 
 			label = "p.adj.signif", 
 			step.increase = step_increase, 
 			step.group.by = c("variable"), 
 			hide.ns = TRUE)
-	return(list(p = p, stats = stat.test))	
+	return(list(p = p, stats = stat_test))	
 }
