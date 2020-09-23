@@ -127,7 +127,7 @@
     <p>Visualize the probability result from bootstrapping analysis</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_bootstrap_probability</span>(<span class='kw'>l_boot</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_bootstrap_probability</span>(<span class='kw'>l_boot</span>, alpha = <span class='fl'>0.95</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,6 +135,10 @@
     <tr>
       <th>l_boot</th>
       <td><p>a `list` generated with `bootstrap_freq()`</p></td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td><p>`numeric`, a confidence level, default to `0.95`.</p></td>
     </tr>
     </table>
 
