@@ -51,7 +51,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/boxplots.html">A basic example</a>
+      <a href="articles/boxplots.html">Pair-wise statistical comparison</a>
+    </li>
+    <li>
+      <a href="articles/bootstrapping.html">Bootstrapping</a>
     </li>
   </ul>
 </li>
@@ -87,6 +90,12 @@
 <a href="#how-to-install" class="anchor"></a>How to install</h2>
 <pre><code># Install development version from GitHub
 devtools::install_github("hrvg/regionaldrivers")</code></pre>
+<p>It is also likely you’ll need to install the latest <code>terra</code> or <code>raster</code> version which has dependencies on GDAL (&gt;= 3.0.0), GEOS (&gt;= 3.3.0) and Proj.4 (&gt;= 6.0.0).</p>
+<p>On Linux, you can do:</p>
+<pre><code>sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
+sudo apt-get -q update
+sudo apt-get -y install libgdal-dev libgeos-dev libproj-dev </code></pre>
+<p>The <code>terra</code> <a href="https://github.com/rspatial/terra">github page</a> has some insights for other operating systems.</p>
 </div>
 </div>
 
@@ -103,7 +112,8 @@ devtools::install_github("hrvg/regionaldrivers")</code></pre>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Hervé Guillon <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/YOUR-ORCID-ID" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Hervé Guillon <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6297-8253" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Colin Byrne <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4752-2503" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -118,7 +128,7 @@ devtools::install_github("hrvg/regionaldrivers")</code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by Hervé Guillon.</p>
+  <p>Developed by Hervé Guillon, Colin Byrne.</p>
 </div>
 
 <div class="pkgdown">
