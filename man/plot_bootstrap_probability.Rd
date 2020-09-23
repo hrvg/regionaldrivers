@@ -4,10 +4,12 @@
 \alias{plot_bootstrap_probability}
 \title{Visualize the probability result from bootstrapping analysis}
 \usage{
-plot_bootstrap_probability(l_boot)
+plot_bootstrap_probability(l_boot, alpha = 0.95)
 }
 \arguments{
 \item{l_boot}{a `list` generated with `bootstrap_freq()`}
+
+\item{alpha}{`numeric`, a confidence level, default to `0.95`.}
 }
 \value{
 a `ggplot` object
