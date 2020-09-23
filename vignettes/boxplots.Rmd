@@ -21,8 +21,7 @@ knitr::opts_chunk$set(
 # Libraries
 
 ```{r setup}
-# library(regionaldrivers)
-devtools::load_all()
+library(regionaldrivers)
 library(magrittr)
 ```
 
