@@ -14,5 +14,7 @@ navbar:
     articles:
       text: Articles
       menu:
-      - text: A basic example
+      - text: Pair-wise statistical comparison
         href: articles/boxplots.html
+      - text: Bootstrapping
+        href: articles/bootstrapping.html  

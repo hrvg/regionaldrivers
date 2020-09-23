@@ -1,12 +1,17 @@
 Package: regionaldrivers
 Title: Statistical analysis of regional drivers for classifications
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R: c(
     person(given = "Hervé",
            family = "Guillon",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "herve@guillon.xyz",
+           comment = c(ORCID = "0000-0002-6297-8253")),
+    person(given = "Colin",
+           family = "Byrne",
+           role = c("aut"),
+           email = "cfbyrne@ucdavis.edu",
+           comment = c(ORCID = "0000-0003-4752-2503")))       
 Description: Statistical analysis of regional drivers for classifications
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -17,14 +22,15 @@ Imports:
   magrittr,
   plotly,
   reshape2,
-  rstatix
+  rstatix,
+  sp
 LazyData: true
 Suggests: 
     knitr,
     kableExtra,
     testthat,
     rmarkdown,
-    pkgdown    
+    pkgdown
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 Depends: 

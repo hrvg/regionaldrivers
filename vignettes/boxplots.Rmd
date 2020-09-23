@@ -1,8 +1,8 @@
 ---
-title: "A basic example"
+title: "Pair-wise statistical comparison"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{A basic example}
+  %\VignetteIndexEntry{Pair-wise statistical comparison}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -10,7 +10,11 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 7,
+  message = FALSE,
+  warning = FALSE
 )
 ```
 
@@ -19,19 +23,25 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(regionaldrivers)
 library(magrittr)
-library(ggplot2)
 ```
 
 # Data loading
 
-`SSCT_data` is loaded with the package.
-Here is what it looks like:
+`SSCT_data` and `SSCT_labelled_data` are loaded with the package.
+Here is what 10 random rows of each looks like:
 
-```{r data_loading}
+```{r data loading1, echo = FALSE}
 SSCT_labelled_data %>% dplyr::sample_n(10) %>%
-	knitr::kable(digits = 3, format = "html", caption = "benchmark results") %>% 
+	knitr::kable(digits = 3, format = "html", caption = "SSCT_labelled_data") %>% 
 	kableExtra::kable_styling(bootstrap_options = c("hover", "condensed")) %>% 
 	kableExtra::scroll_box(width = "7in", height = "5in")
+```
+
+```{r data loading2, echo = FALSE}	
+SSCT_data %>% dplyr::sample_n(10) %>%
+	knitr::kable(digits = 3, format = "html", caption = "SSCT_data") %>% 
+	kableExtra::kable_styling(bootstrap_options = c("hover", "condensed")) %>% 
+	kableExtra::scroll_box(width = "7in", height = "5in")	
 ```
 
 # Data transformation
@@ -48,8 +58,9 @@ head(drivers_data)
 
 # Statistical testing and visualization
 
-We can now visualize the results from a pair-wise statistical comparison with `SignificativeDiffBoxPlot()`.
+We can now visualize the results from a pair-wise statistical comparison with `significative_diff_boxplot()`.
 
-```{r viz, fig.width = 7, fig.height = 7}
-SignificativeDiffBoxPlot(drivers_data, type = "Dunn", padjmeth = "holm")$p
+```{r viz}
+significative_diff_boxplot(drivers_data, type = "Dunn", padjmeth = "holm")$p
 ```
+
