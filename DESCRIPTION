@@ -21,6 +21,7 @@ Imports:
   ggpubr,
   magrittr,
   plotly,
+  raster,
   reshape2,
   rstatix,
   sp
