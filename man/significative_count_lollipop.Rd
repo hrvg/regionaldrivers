@@ -17,6 +17,8 @@ significative_count_lollipop(
 \item{pvalue}{`numeric` the threshold p-value}
 
 \item{normalize}{`logical` if `TRUE`, normalize the count by the number of comparison}
+
+\item{first}{`numeric` controls the number of variables plotted}
 }
 \value{
 a named list with two elements `p` a `ggplot` plot and `stats` the count table of the significative value

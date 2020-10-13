@@ -7,9 +7,9 @@
 plot_pairwise_pvalue(stats, alpha = 0.95)
 }
 \arguments{
-\item{alpha}{`numeric`, a confidence level, default to `0.95`.}
+\item{stats}{a statistic table generated from `signif_diff_boxplot()`}
 
-\item{l_boot}{a `list` generated with `bootstrap_freq()`}
+\item{alpha}{`numeric`, a confidence level, default to `0.95`.}
 }
 \value{
 a `ggplot` object

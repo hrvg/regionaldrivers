@@ -8,17 +8,18 @@
 #' @param ypos `numeric`, graphical parameter
 #' @param step_increase `numeric`, graphical parameter
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 #' @keywords function
 #' @returns a named list with two elements `p` a `ggplot` plot and `stats` the statistics table of the test
 significative_diff_boxplot <- function(melted, type = "Tukey", padjmeth = "bonferroni", ypos = 1.5, step_increase = 0.1){
-	melted <- dplyr::group_by(melted, variable)
+	melted <- dplyr::group_by(melted, .data$variable)
 	stat_test <- switch(type, 
 		"Dunn" = melted %>% rstatix::dunn_test(value ~ ward.grp, p.adjust.method = padjmeth),
 		"Tukey" = melted %>% rstatix::tukey_hsd(value ~ ward.grp, p.adjust.method = padjmeth),
 		"Wilcox" = melted %>% rstatix::wilcox_test(value ~ ward.grp, p.adjust.method = padjmeth)
 		)
-	stat_test <- merge(stat_test, dplyr::summarize_at(melted, "value", max) %>% dplyr::rename(y.position = value))
+	stat_test <- merge(stat_test, dplyr::summarize_at(melted, "value", max) %>% dplyr::rename(y.position = .data$value))
 	p <- ggpubr::ggboxplot(melted, 
 		x = "ward.grp", 
 		y = "value", 

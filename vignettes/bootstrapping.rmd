@@ -61,7 +61,7 @@ We use `set.seed()` to ensure reproducibility of the random process.
 
 ```{r bootstrap}
 set.seed(1789)
-l_boot <- bootstrap_freq(SSCT_data %>% dplyr::select(ward, geology) %>% na.omit())
+l_boot <- bootstrap_freq(SSCT_data %>% dplyr::select(c("ward", "geology")) %>% na.omit())
 ```
 
 ```{r viz p value}

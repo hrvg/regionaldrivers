@@ -50,7 +50,7 @@ We transform the data to retain what we need for the analysis:
 
 ```{r melting}
 drivers_data <- cbind(SSCT_labelled_data, SSCT_data) %>%
-	dplyr::select(c("CONFINEMEN", "layer_sd.rstr", "H.960", "SLOPE", "RUSLE", "ward"))	%>%
+	dplyr::select(c("CONFINEMEN", "layer_sd.rstr", "H.960", "slope_mean.rstr", "SLOPE", "RUSLE", "ward"))	%>%
 	dplyr::rename(ward.grp = ward) %>%
 	reshape2::melt(id.vars = "ward.grp")
 head(drivers_data)
@@ -86,8 +86,7 @@ This time we select most data, removing the data with near-zero variance and the
 If `normalize = TRUE`, the counts are normalized by the number of pairwise comparisons.
 
 ```{r lollipop, echo = TRUE}
-all_drivers_data <- cbind(SSCT_labelled_data, SSCT_data) %>%
-	dplyr::select(-head(colnames(SSCT_data), -1)) %>%
+all_drivers_data <- cbind(SSCT_labelled_data, SSCT_data %>% dplyr::select("ward")) %>%
 	dplyr::select(-caret::nearZeroVar(., names = TRUE)) %>%
 	dplyr::select(-c("CHYD", "CCHEM", "CSED", "CCONN", "CTEMP", "CHABT", "ICI", "WHYD", "WCHEM", "WSED", "WCONN", "WTEMP", "WHABT")) %>%
 	dplyr::rename(ward.grp = ward) %>%
