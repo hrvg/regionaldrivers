@@ -16,6 +16,7 @@ Description: Statistical analysis of regional drivers for classifications
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
+  caret,
   dplyr,
   ggplot2,
   ggpubr,
