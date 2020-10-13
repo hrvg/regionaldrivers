@@ -1,6 +1,6 @@
 Package: regionaldrivers
 Title: Statistical analysis of regional drivers for classifications
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: c(
     person(given = "Hervé",
            family = "Guillon",
