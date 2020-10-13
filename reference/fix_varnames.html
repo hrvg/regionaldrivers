@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visualize the p-value result from the statistical pair-wise analysis — plot_pairwise_pvalue • regionaldrivers</title>
+<title>Pretty the name of variables — fix_varnames • regionaldrivers</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Visualize the p-value result from the statistical pair-wise analysis — plot_pairwise_pvalue" />
-<meta property="og:description" content="Visualize the p-value result from the statistical pair-wise analysis" />
+<meta property="og:title" content="Pretty the name of variables — fix_varnames" />
+<meta property="og:description" content="Pretty the name of variables" />
 
 
 
@@ -118,33 +118,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visualize the p-value result from the statistical pair-wise analysis</h1>
+    <h1>Pretty the name of variables</h1>
     
-    <div class="hidden name"><code>plot_pairwise_pvalue.Rd</code></div>
+    <div class="hidden name"><code>fix_varnames.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Visualize the p-value result from the statistical pair-wise analysis</p>
+    <p>Pretty the name of variables</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_pairwise_pvalue</span><span class='op'>(</span><span class='va'>stats</span>, alpha <span class='op'>=</span> <span class='fl'>0.95</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>fix_varnames</span><span class='op'>(</span><span class='va'>df</span>, var <span class='op'>=</span> <span class='st'>"var"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>stats</th>
-      <td><p>a statistic table generated from `signif_diff_boxplot()`</p></td>
+      <th>df</th>
+      <td><p>a `data.frame`</p></td>
     </tr>
     <tr>
-      <th>alpha</th>
-      <td><p>`numeric`, a confidence level, default to `0.95`.</p></td>
+      <th>var</th>
+      <td><p>`character` the column of `df` where the variable id are</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a `ggplot` object</p>
+    <p>a `data.frame`</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

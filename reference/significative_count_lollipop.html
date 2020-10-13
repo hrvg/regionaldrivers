@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Visualize the p-value result from the statistical pair-wise analysis — plot_pairwise_pvalue • regionaldrivers</title>
+<title>Makes a lollipop chart from pair-wise comparison data — significative_count_lollipop • regionaldrivers</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Visualize the p-value result from the statistical pair-wise analysis — plot_pairwise_pvalue" />
-<meta property="og:description" content="Visualize the p-value result from the statistical pair-wise analysis" />
+<meta property="og:title" content="Makes a lollipop chart from pair-wise comparison data — significative_count_lollipop" />
+<meta property="og:description" content="Makes a lollipop chart from pair-wise comparison data" />
 
 
 
@@ -118,33 +118,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Visualize the p-value result from the statistical pair-wise analysis</h1>
+    <h1>Makes a lollipop chart from pair-wise comparison data</h1>
     
-    <div class="hidden name"><code>plot_pairwise_pvalue.Rd</code></div>
+    <div class="hidden name"><code>significative_count_lollipop.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Visualize the p-value result from the statistical pair-wise analysis</p>
+    <p>Makes a lollipop chart from pair-wise comparison data</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_pairwise_pvalue</span><span class='op'>(</span><span class='va'>stats</span>, alpha <span class='op'>=</span> <span class='fl'>0.95</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>significative_count_lollipop</span><span class='op'>(</span>
+  <span class='va'>pairwise_results</span>,
+  pvalue <span class='op'>=</span> <span class='fl'>0.05</span>,
+  normalize <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  first <span class='op'>=</span> <span class='fl'>25</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>stats</th>
-      <td><p>a statistic table generated from `signif_diff_boxplot()`</p></td>
+      <th>pairwise_results</th>
+      <td><p>a `list` passed from `significative_diff_boxplot()`</p></td>
     </tr>
     <tr>
-      <th>alpha</th>
-      <td><p>`numeric`, a confidence level, default to `0.95`.</p></td>
+      <th>pvalue</th>
+      <td><p>`numeric` the threshold p-value</p></td>
+    </tr>
+    <tr>
+      <th>normalize</th>
+      <td><p>`logical` if `TRUE`, normalize the count by the number of comparison</p></td>
+    </tr>
+    <tr>
+      <th>first</th>
+      <td><p>`numeric` controls the number of variables plotted</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a `ggplot` object</p>
+    <p>a named list with two elements `p` a `ggplot` plot and `stats` the count table of the significative value</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
