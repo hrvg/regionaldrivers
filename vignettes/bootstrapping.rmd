@@ -11,8 +11,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 7,
-  fig.height = 7,
+  fig.width = 10,
+  fig.height = 8,
   message = FALSE,
   warning = FALSE
 )
@@ -65,7 +65,6 @@ l_boot <- bootstrap_freq(SSCT_data %>% dplyr::select(ward, geology) %>% na.omit(
 ```
 
 ```{r viz p value}
-library(ggplot2)
 plotly::ggplotly(
 	plot_bootstrap_pvalue(l_boot),
 	tooltip = c("channel_type", "geology", "p.value")

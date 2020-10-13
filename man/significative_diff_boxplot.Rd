@@ -7,7 +7,7 @@
 significative_diff_boxplot(
   melted,
   type = "Tukey",
-  padjmeth = "holm",
+  padjmeth = "bonferroni",
   ypos = 1.5,
   step_increase = 0.1
 )

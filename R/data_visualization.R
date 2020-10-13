@@ -4,7 +4,6 @@
 #' @return a `ggplot` object
 #' @export 
 #' @keywords function
-#' @import ggplot2
 plot_bootstrap_pvalue <- function(l_boot, alpha = 0.95){
 	viz_pvalue <- l_boot[[1]] %>% 
 		dplyr::mutate(geology = row.names(.)) %>% 
@@ -16,17 +15,17 @@ plot_bootstrap_pvalue <- function(l_boot, alpha = 0.95){
 			geology = forcats::fct_rev(geology), 
 			opacity = ifelse(value <= (1 - alpha), 1, 0.33)
 		)
-	p <- ggplot(viz_pvalue, aes(x = channel_type, y = geology, fill = value, group = p.value, alpha = opacity)) +
-		geom_tile(color = "white") +
-		scale_fill_viridis_c(option = "cividis", direction = 1, begin = 0, end = 1, limits = c(0,1))  +
-		labs(fill = "p-value",
+	p <- ggplot2::ggplot(viz_pvalue, ggplot2::aes(x = channel_type, y = geology, fill = value, group = p.value, alpha = opacity)) +
+		ggplot2::geom_tile(color = "white") +
+		ggplot2::scale_fill_viridis_c(option = "cividis", direction = 1, begin = 0, end = 1, limits = c(0,1))  +
+		ggplot2::labs(fill = "p-value",
 			x = "channel type",
 			y = "geology",
-			title = "Bootstrapping results (p-value)"
+			title = "Bootstrapping ggplot2::results (p-value)"
 			) +
-		theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+		ggplot2::theme(panel.grid.major = ggplot2::element_blank(), panel.grid.minor = ggplot2::element_blank()) +
 		ggpubr::theme_pubr() +
-		coord_fixed(ratio = 1)
+		ggplot2::coord_fixed(ratio = 1)
 	return(p)	
 }
 
@@ -36,7 +35,6 @@ plot_bootstrap_pvalue <- function(l_boot, alpha = 0.95){
 #' @return a `ggplot` object
 #' @export 
 #' @keywords function
-#' @import ggplot2
 plot_bootstrap_probability <- function(l_boot, alpha = 0.95){
 	viz_probability <- l_boot[[2]] %>% 
 		dplyr::mutate(number_groupings = row.names(.)) %>% 
@@ -48,17 +46,17 @@ plot_bootstrap_probability <- function(l_boot, alpha = 0.95){
 			number_groupings = forcats::fct_rev(number_groupings),
 			opacity = ifelse(probability <= (1 - alpha), 1, 0.33)
 		)
-	p <- ggplot(viz_probability, aes(x = channel_type, y = number_groupings, fill = value, group = probability, alpha = opacity)) +
-		geom_tile(color = "white") +
-		scale_fill_viridis_c(option = "cividis", direction = 1, begin = 0, end = 1, limits = c(0,1))  +
-		labs(fill = "p-value",
+	p <- ggplot2::ggplot(viz_probability, ggplot2::aes(x = channel_type, y = number_groupings, fill = value, group = probability, alpha = opacity)) +
+		ggplot2::geom_tile(color = "white") +
+		ggplot2::scale_fill_viridis_c(option = "cividis", direction = 1, begin = 0, end = 1, limits = c(0,1))  +
+		ggplot2::labs(fill = "p-value",
 			x = "channel type",
 			y = "number of groupings",
 			title = "Bootstrapping results (probability of having a given number of groupings)"
 			) +
-		theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+		ggplot2::theme(panel.grid.major = ggplot2::element_blank(), panel.grid.minor = ggplot2::element_blank()) +
 		ggpubr::theme_pubr() +
-		coord_fixed(ratio = 1)
+		ggplot2::coord_fixed(ratio = 1)
 	return(p)
 }
 
@@ -68,7 +66,6 @@ plot_bootstrap_probability <- function(l_boot, alpha = 0.95){
 #' @return a `ggplot` object
 #' @export 
 #' @keywords function
-#' @import ggplot2
 plot_pairwise_pvalue <- function(stats, alpha = 0.95){
 	stats$group1 <- forcats::fct_reorder(stats$group1, as.numeric(stats$group1))
 	stats$group2 <- forcats::fct_reorder(stats$group2, as.numeric(stats$group2))
@@ -87,7 +84,7 @@ plot_pairwise_pvalue <- function(stats, alpha = 0.95){
 			) +
 		ggplot2::theme(panel.grid.major = ggplot2::element_blank(), panel.grid.minor = ggplot2::element_blank()) +
 		ggpubr::theme_pubr() +
-		ggplot2::facet_grid(~ variable) +
+		ggplot2::facet_wrap(~ variable) +
 		ggplot2::coord_fixed(ratio = 1)
 	return(p)	
 }
