@@ -50,8 +50,10 @@ We transform the data to retain what we need for the analysis:
 
 ```{r melting}
 drivers_data <- cbind(SSCT_labelled_data, SSCT_data) %>%
-	dplyr::select(c("CONFINEMEN", "layer_sd.rstr", "H.960", "slope_mean.rstr", "SLOPE", "RUSLE", "ward"))	%>%
+	dplyr::select(c("layer_sd.rstr", "slope_mean.rstr", "SLOPE", "RUSLE", "ward"))	%>%
+	# dplyr::select(c("CONFINEMEN", "layer_sd.rstr", "H.960", "slope_mean.rstr", "SLOPE", "RUSLE", "ward"))	%>%
 	dplyr::rename(ward.grp = ward) %>%
+	dplyr::mutate(RUSLE = log10(RUSLE)) %>%
 	reshape2::melt(id.vars = "ward.grp")
 head(drivers_data)
 ```
@@ -63,7 +65,7 @@ We can now visualize the results from a pair-wise statistical comparison with `s
 ## Box plots
 
 ```{r viz box plots}
-Dunn_results <- significative_diff_boxplot(drivers_data, type = "Dunn", padjmeth = "bonferroni")
+Dunn_results <- significative_diff_boxplot(drivers_data, type = "Dunn", padjmeth = "bonferroni", pvalue = 0.10, no_label = TRUE)
 Dunn_results$p
 ```
 
@@ -89,10 +91,12 @@ If `normalize = TRUE`, the counts are normalized by the number of pairwise compa
 all_drivers_data <- cbind(SSCT_labelled_data, SSCT_data %>% dplyr::select("ward")) %>%
 	dplyr::select(-caret::nearZeroVar(., names = TRUE)) %>%
 	dplyr::select(-c("CHYD", "CCHEM", "CSED", "CCONN", "CTEMP", "CHABT", "ICI", "WHYD", "WCHEM", "WSED", "WCONN", "WTEMP", "WHABT")) %>%
+	dplyr::select(-dplyr::contains("H.")) %>%
 	dplyr::rename(ward.grp = ward) %>%
+	dplyr::mutate(RUSLE = log10(RUSLE)) %>%
 	reshape2::melt(id.vars = "ward.grp") %>%
 	na.omit()
-Dunn_results <- significative_diff_boxplot(all_drivers_data, type = "Dunn", padjmeth = "bonferroni")
-significative_count_lollipop(Dunn_results)$p %>% plotly::ggplotly() 
-significative_count_lollipop(Dunn_results, normalize = TRUE)$p %>% plotly::ggplotly()
+Dunn_results <- significative_diff_boxplot(all_drivers_data, type = "Dunn", padjmeth = "bonferroni", pvalue = 0.10)
+significative_count_lollipop(Dunn_results, pvalue = 0.10, first = 15)$p %>% plotly::ggplotly() 
+significative_count_lollipop(Dunn_results, pvalue = 0.10, normalize = TRUE, first = 15)$p %>% plotly::ggplotly()
 ```

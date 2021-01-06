@@ -4,12 +4,12 @@
 \alias{plot_pairwise_pvalue}
 \title{Visualize the p-value result from the statistical pair-wise analysis}
 \usage{
-plot_pairwise_pvalue(stats, alpha = 0.95)
+plot_pairwise_pvalue(stats, diag = FALSE)
 }
 \arguments{
 \item{stats}{a statistic table generated from `signif_diff_boxplot()`}
 
-\item{alpha}{`numeric`, a confidence level, default to `0.95`.}
+\item{diag}{`logical` if `TRUE` the diagonal elements of the pairwise matrix are added to the plot}
 }
 \value{
 a `ggplot` object
