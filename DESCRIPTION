@@ -1,6 +1,6 @@
 Package: regionaldrivers
 Title: Statistical analysis of regional drivers for classifications
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(
     person(given = "Hervé",
            family = "Guillon",
@@ -12,18 +12,21 @@ Authors@R: c(
            role = c("aut"),
            email = "cfbyrne@ucdavis.edu",
            comment = c(ORCID = "0000-0003-4752-2503")))       
-Description: Statistical analysis of regional drivers for classifications
+Description: regionaldrivers implements statistical tools to analyze statistical classifications in environmental sciences. In particular, the package provides tools to analyze regional drivers of statistical groupings.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
+  caret,
   dplyr,
+  forcats,
   ggplot2,
   ggpubr,
   magrittr,
   plotly,
   raster,
-  rgdal,
   reshape2,
+  rgdal,
+  rlang,
   rstatix,
   sp
 LazyData: true
@@ -36,4 +39,4 @@ Suggests:
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0)

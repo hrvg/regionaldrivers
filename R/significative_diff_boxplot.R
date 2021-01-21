@@ -7,30 +7,46 @@
 #' @param padjmeth `character`, passed to `p.adjust.method`, controls the type of p-value adjustement
 #' @param ypos `numeric`, graphical parameter
 #' @param step_increase `numeric`, graphical parameter
+#' @param pvalue `numeric`, p-value threshold
+#' @param no_label `logical`, if `TRUE` remove the labels on the plot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 #' @keywords function
-#' @returns a named list with two elements `p` a `ggplot` plot and `stats` the statistics table of the test
-significative_diff_boxplot <- function(melted, type = "Tukey", padjmeth = "holm", ypos = 1.5, step_increase = 0.1){
-	melted <- dplyr::group_by(melted, variable)
+#' @returns a named list with three elements `p` a `ggplot` plot, `stats` the statistics table of the test and `p_nop` a `ggplot` plot
+significative_diff_boxplot <- function(melted, type = "Tukey", padjmeth = "bonferroni", ypos = 1.5, step_increase = 0.1, pvalue = 0.05, no_label = FALSE){
+	melted <- dplyr::group_by(melted, .data$variable)
 	stat_test <- switch(type, 
 		"Dunn" = melted %>% rstatix::dunn_test(value ~ ward.grp, p.adjust.method = padjmeth),
 		"Tukey" = melted %>% rstatix::tukey_hsd(value ~ ward.grp, p.adjust.method = padjmeth),
 		"Wilcox" = melted %>% rstatix::wilcox_test(value ~ ward.grp, p.adjust.method = padjmeth)
 		)
-	stat_test <- merge(stat_test, dplyr::summarize_at(melted, "value", max) %>% dplyr::rename(y.position = value))
+	stat_test <- merge(stat_test, dplyr::summarize_at(melted, "value", max) %>% dplyr::rename(y.position = .data$value)) 
 	p <- ggpubr::ggboxplot(melted, 
 		x = "ward.grp", 
 		y = "value", 
 		color = "ward.grp", 
 		facet.by = "variable",
 		scales = "free",
-		title = paste(type, padjmeth, sep = ", ")) +
+		title = paste(type, padjmeth, sep = ", "))
+	p_nop <- p
+	if (no_label){
+		p <- p +
 		ggpubr::stat_pvalue_manual(
-			stat_test %>% as.data.frame(), 
+			stat_test %>% as.data.frame() %>% dplyr::filter(.data$p.adj <= pvalue),
+			label = "p.adj.signif", 
+			label.size = -Inf,
+			step.increase = step_increase, 
+			step.group.by = c("variable"), 
+			hide.ns = TRUE)
+	} else {
+		p <- p +
+		ggpubr::stat_pvalue_manual(
+			stat_test %>% as.data.frame() %>% dplyr::filter(.data$p.adj <= pvalue), 
 			label = "p.adj.signif", 
 			step.increase = step_increase, 
 			step.group.by = c("variable"), 
 			hide.ns = TRUE)
-	return(list(p = p, stats = stat_test))	
+	}
+	return(list(p = p, stats = stat_test, p_nop = p_nop))	
 }

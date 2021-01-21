@@ -7,9 +7,11 @@
 significative_diff_boxplot(
   melted,
   type = "Tukey",
-  padjmeth = "holm",
+  padjmeth = "bonferroni",
   ypos = 1.5,
-  step_increase = 0.1
+  step_increase = 0.1,
+  pvalue = 0.05,
+  no_label = FALSE
 )
 }
 \arguments{
@@ -22,9 +24,13 @@ significative_diff_boxplot(
 \item{ypos}{`numeric`, graphical parameter}
 
 \item{step_increase}{`numeric`, graphical parameter}
+
+\item{pvalue}{`numeric`, p-value threshold}
+
+\item{no_label}{`logical`, if `TRUE` remove the labels on the plot}
 }
 \value{
-a named list with two elements `p` a `ggplot` plot and `stats` the statistics table of the test
+a named list with three elements `p` a `ggplot` plot, `stats` the statistics table of the test and `p_nop` a `ggplot` plot
 }
 \description{
 This is a convenience function wrapper around `rstatix` and `ggpubr` functions.

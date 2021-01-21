@@ -1,8 +1,8 @@
 ---
-title: "Pair-wise statistical comparison"
+title: "Pair-wise statistical comparisons"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Pair-wise statistical comparison}
+  %\VignetteIndexEntry{Pair-wise statistical comparisons}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,8 +11,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 7,
-  fig.height = 7,
+  fig.width = 10,
+  fig.height = 8,
   message = FALSE,
   warning = FALSE
 )
@@ -50,8 +50,10 @@ We transform the data to retain what we need for the analysis:
 
 ```{r melting}
 drivers_data <- cbind(SSCT_labelled_data, SSCT_data) %>%
-	dplyr::select(c("SLOPE", "RUSLE", "ward"))	%>%
+	dplyr::select(c("layer_sd.rstr", "slope_mean.rstr", "SLOPE", "RUSLE", "ward"))	%>%
+	# dplyr::select(c("CONFINEMEN", "layer_sd.rstr", "H.960", "slope_mean.rstr", "SLOPE", "RUSLE", "ward"))	%>%
 	dplyr::rename(ward.grp = ward) %>%
+	dplyr::mutate(RUSLE = log10(RUSLE)) %>%
 	reshape2::melt(id.vars = "ward.grp")
 head(drivers_data)
 ```
@@ -60,14 +62,41 @@ head(drivers_data)
 
 We can now visualize the results from a pair-wise statistical comparison with `significative_diff_boxplot()`.
 
+## Box plots
+
 ```{r viz box plots}
-Dunn_results <- significative_diff_boxplot(drivers_data, type = "Dunn", padjmeth = "holm")
+Dunn_results <- significative_diff_boxplot(drivers_data, type = "Dunn", padjmeth = "bonferroni", pvalue = 0.10, no_label = TRUE)
 Dunn_results$p
 ```
+
+## Matrices
+
+As the boxplots might be difficult to read, the p-value can be recasted into a matrix form with `plot_pairwise_pvalue()`.
 
 ```{r}
 plotly::ggplotly(
 	plot_pairwise_pvalue(Dunn_results$stats),
 	tooltip = c("group1", "group2", "p.value")
 )	
+```
+
+# Lollipop charts
+
+We can repeat the above procedure for all data and visualize the results at the number of significant pairwise comparisons.
+This time we select most data, removing the data with near-zero variance and the Indices of Catchment Integrity.
+`significative_count_lollipop()` produces a lollipop chart counting the number of significant pairwise comparison.
+If `normalize = TRUE`, the counts are normalized by the number of pairwise comparisons.
+
+```{r lollipop, echo = TRUE}
+all_drivers_data <- cbind(SSCT_labelled_data, SSCT_data %>% dplyr::select("ward")) %>%
+	dplyr::select(-caret::nearZeroVar(., names = TRUE)) %>%
+	dplyr::select(-c("CHYD", "CCHEM", "CSED", "CCONN", "CTEMP", "CHABT", "ICI", "WHYD", "WCHEM", "WSED", "WCONN", "WTEMP", "WHABT")) %>%
+	dplyr::select(-dplyr::contains("H.")) %>%
+	dplyr::rename(ward.grp = ward) %>%
+	dplyr::mutate(RUSLE = log10(RUSLE)) %>%
+	reshape2::melt(id.vars = "ward.grp") %>%
+	na.omit()
+Dunn_results <- significative_diff_boxplot(all_drivers_data, type = "Dunn", padjmeth = "bonferroni", pvalue = 0.10)
+significative_count_lollipop(Dunn_results, pvalue = 0.10, first = 15)$p %>% plotly::ggplotly() 
+significative_count_lollipop(Dunn_results, pvalue = 0.10, normalize = TRUE, first = 15)$p %>% plotly::ggplotly()
 ```

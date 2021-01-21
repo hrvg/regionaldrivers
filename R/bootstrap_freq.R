@@ -3,6 +3,7 @@
 #' @param bin_toggle `numeric`, optional, determines which direction to run the bootstrapping: `1` tests the likelihood from random that the class occurs preferentially or not within a testGrouping, default, likely the value to use; `2` tests the opposite direction from `1`
 #' @return a list of 2: (1) The p-value of each class-testGrouping pair. If the value is less than 0.05, then the pair frequency is significantly different from random with a 95% confidence level. (2) The probability for how many testGroupings appear in each class. This should be compared with the observed number of testGroupings in each class. If the observed number is < 0.05, then the number of testGroupings in the class is significantly different from random.
 #' @export
+#' @importFrom stats sd rnorm
 #' @keywords function
 bootstrap_freq <- function(df, bin_toggle = 1) {
   names(df) <- c("class", "testGrouping")
