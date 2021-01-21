@@ -18,3 +18,5 @@ navbar:
         href: articles/boxplots.html
       - text: Bootstrapping
         href: articles/bootstrapping.html  
+      - text: Feature importance
+        href: articles/feature_importance.html  

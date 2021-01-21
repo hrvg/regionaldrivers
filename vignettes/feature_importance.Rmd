@@ -1,0 +1,69 @@
+---
+title: "Feature importance"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Feature importance}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 8,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+# Libraries
+
+```{r setup}
+library(regionaldrivers)
+library(magrittr)
+```
+
+# Data loading
+
+`SSCT_data` and `SSCT_labelled_data` are loaded with the package.
+Here is what 10 random rows of each looks like:
+
+```{r data loading1, echo = FALSE}
+SSCT_labelled_data %>% dplyr::sample_n(10) %>%
+	knitr::kable(digits = 3, format = "html", caption = "SSCT_labelled_data") %>% 
+	kableExtra::kable_styling(bootstrap_options = c("hover", "condensed")) %>% 
+	kableExtra::scroll_box(width = "7in", height = "5in")
+```
+
+```{r data loading2, echo = FALSE}	
+SSCT_data %>% dplyr::sample_n(10) %>%
+	knitr::kable(digits = 3, format = "html", caption = "SSCT_data") %>% 
+	kableExtra::kable_styling(bootstrap_options = c("hover", "condensed")) %>% 
+	kableExtra::scroll_box(width = "7in", height = "5in")	
+```
+
+# Data transformation
+
+We transform the data to retain what we need for the analysis.
+
+```{r data selection}
+drivers_data <- cbind(SSCT_labelled_data, SSCT_data) %>%
+  dplyr::select(-c("SiteID", "POINT_X", "POINT_X"))
+```
+
+# Feature importance
+
+The function `feature_importance()` derives the feature importance from `drivers_data` and the name of the target column, here `ward`.
+The `method` argument accepts [filter methods](https://mlr.mlr-org.com/articles/tutorial/filter_methods.html) from `mlr`.
+The function resamples the dataset `iters` time, for this vignette, the number of iterations was lowered to 10 from the default value of 500.
+
+```{r feature importance}
+varimp <- feature_importance(
+  drivers_data, "ward", 
+  methods = c("kruskal.test", "FSelectorRcpp_information.gain", "FSelector_chi.squared", "randomForest_importance"),
+  .iters = 10,
+  .first = 10)
+varimp$p
+```
