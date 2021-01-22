@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">regionaldrivers</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.1</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -97,10 +97,16 @@
     <li>
       <a href="../articles/bootstrapping.html">Bootstrapping</a>
     </li>
+    <li>
+      <a href="../articles/feature_importance.html">Feature importance</a>
+    </li>
   </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -132,7 +138,9 @@
   type <span class='op'>=</span> <span class='st'>"Tukey"</span>,
   padjmeth <span class='op'>=</span> <span class='st'>"bonferroni"</span>,
   ypos <span class='op'>=</span> <span class='fl'>1.5</span>,
-  step_increase <span class='op'>=</span> <span class='fl'>0.1</span>
+  step_increase <span class='op'>=</span> <span class='fl'>0.1</span>,
+  pvalue <span class='op'>=</span> <span class='fl'>0.05</span>,
+  no_label <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,11 +166,19 @@
       <th>step_increase</th>
       <td><p>`numeric`, graphical parameter</p></td>
     </tr>
+    <tr>
+      <th>pvalue</th>
+      <td><p>`numeric`, p-value threshold</p></td>
+    </tr>
+    <tr>
+      <th>no_label</th>
+      <td><p>`logical`, if `TRUE` remove the labels on the plot</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a named list with two elements `p` a `ggplot` plot and `stats` the statistics table of the test</p>
+    <p>a named list with three elements `p` a `ggplot` plot, `stats` the statistics table of the test and `p_nop` a `ggplot` plot</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
