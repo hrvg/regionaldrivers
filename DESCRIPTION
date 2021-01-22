@@ -41,6 +41,7 @@ Suggests:
   covr,
   pkgdown,
   gridExtra,
+  FSelector,
   FSelectorRcpp,
   randomForest
 VignetteBuilder: knitr
