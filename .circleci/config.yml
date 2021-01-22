@@ -34,6 +34,11 @@ jobs:
           command: |
             sudo apt-get -y install r-base
             sudo apt-get -y install r-cran-rgl
+      
+      - run:
+          name: javareconf
+          command: |
+            sudo R CMD javareconf
       - run:
           name: Create local library folder
           command: |
