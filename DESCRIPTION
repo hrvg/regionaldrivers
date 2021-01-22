@@ -34,13 +34,15 @@ Imports:
   sp
 LazyData: true
 Suggests: 
-    knitr,
-    kableExtra,
-    testthat,
-    rmarkdown,
-    covr,
-    pkgdown,
-    gridExtra
+  knitr,
+  kableExtra,
+  testthat,
+  rmarkdown,
+  covr,
+  pkgdown,
+  gridExtra,
+  FSelectorRcpp,
+  randomForest
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 Depends: 
