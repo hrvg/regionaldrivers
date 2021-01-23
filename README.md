@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/hrvg/regionaldrivers.svg?branch=master)](https://travis-ci.com/hrvg/regionaldrivers)
+[![CircleCI](https://circleci.com/gh/hrvg/regionaldrivers.svg?style=svg)](https://circleci.com/gh/hrvg/regionaldrivers)
 
 # `regionaldrivers`
 

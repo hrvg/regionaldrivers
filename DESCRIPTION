@@ -1,6 +1,6 @@
 Package: regionaldrivers
 Title: Statistical analysis of regional drivers for classifications
-Version: 0.1.0
+Version: 0.2.0.1
 Authors@R: c(
     person(given = "Hervé",
            family = "Guillon",
@@ -17,11 +17,14 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
   caret,
+  doFuture,
   dplyr,
   forcats,
+  foreach,
   ggplot2,
   ggpubr,
   magrittr,
+  mlr,
   plotly,
   raster,
   reshape2,
@@ -31,11 +34,16 @@ Imports:
   sp
 LazyData: true
 Suggests: 
-    knitr,
-    kableExtra,
-    testthat,
-    rmarkdown,
-    pkgdown
+  knitr,
+  kableExtra,
+  testthat,
+  rmarkdown,
+  covr,
+  pkgdown,
+  gridExtra,
+  FSelector,
+  FSelectorRcpp,
+  randomForest
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 Depends: 

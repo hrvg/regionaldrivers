@@ -9,7 +9,6 @@
 #' @param step_increase `numeric`, graphical parameter
 #' @param pvalue `numeric`, p-value threshold
 #' @param no_label `logical`, if `TRUE` remove the labels on the plot
-#' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @export
 #' @keywords function

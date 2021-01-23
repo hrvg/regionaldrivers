@@ -3,7 +3,6 @@
 #' @param pvalue `numeric` the threshold p-value
 #' @param normalize `logical` if `TRUE`, normalize the count by the number of comparison
 #' @param first `numeric` controls the number of variables plotted
-#' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @importFrom utils head
 #' @export
