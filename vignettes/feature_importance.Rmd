@@ -22,7 +22,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(regionaldrivers)
-library(magrittr)
 ```
 
 # Data loading
@@ -60,9 +59,25 @@ The `method` argument accepts [filter methods](https://mlr.mlr-org.com/articles/
 The function resamples the dataset `iters` time, for this vignette, the number of iterations was lowered to 10 from the default value of 500.
 
 ```{r feature importance}
+class(drivers_data[["ward"]])
 varimp <- feature_importance(
   drivers_data, "ward", 
-  methods = c("kruskal.test", "FSelectorRcpp_information.gain", "FSelector_chi.squared", "randomForest_importance"),
+  methods = c("FSelectorRcpp_information.gain", "FSelector_chi.squared", "randomForest_importance"),
+  .iters = 10,
+  .first = 10)
+varimp$p
+```
+
+The function also works for numerical data using a regression task.
+This behavior is triggered by the `class()` of the target.
+If the target is not an `integer`, `character` or `factor`, `feature_importance()` attemps to create a regression task.
+Some methods, like `FSelectorRcpp_information.gain` will warn you that they are discretizing numeric input.
+
+```{r feature importance regr}
+class(drivers_data[["SLOPE"]])
+varimp <- feature_importance(
+  drivers_data, "SLOPE", 
+  methods = c("FSelectorRcpp_information.gain", "FSelector_chi.squared", "randomForest_importance"),
   .iters = 10,
   .first = 10)
 varimp$p
