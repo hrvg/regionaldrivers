@@ -20,13 +20,23 @@ feature_importance <- function(training_data, target_colname, methods = c("FSele
 	training_data <- training_data %>% dplyr::select(-target_colname) %>% sanitize_data()
 	training_data[[target_colname]] <- target 
 	training_data <- training_data %>% stats::na.omit()
-	task <- mlr::makeClassifTask(data = training_data, target = target_colname)
-	resampleDesc <- mlr::makeResampleDesc("Subsample", stratify = .stratify, iters = .iters, split = .split)
+	if (is.factor(target) || is.integer(target) || is.character(target)){
+		task <- mlr::makeClassifTask(data = training_data, target = target_colname)
+		resampleDesc <- mlr::makeResampleDesc("Subsample", stratify = .stratify, iters = .iters, split = .split)
+	} else {
+		task <- mlr::makeRegrTask(data = training_data, target = target_colname)
+		resampleDesc <- mlr::makeResampleDesc("Subsample", iters = .iters, split = .split)
+
+	}
 	rs <- mlr::makeResampleInstance(resampleDesc, task)$train.inds
 	feature_importances <- 	lapply(methods, function(m){
 		fvs <- lapply(rs, function(ind){
 			set.seed(.seed)
-			resampled_task <- mlr::makeClassifTask(data = training_data[ind, ], target = target_colname)
+			if (is.factor(target) || is.integer(target) || is.character(target)){
+				resampled_task <- mlr::makeClassifTask(data = training_data[ind, ], target = target_colname)
+			} else {
+				resampled_task <- mlr::makeRegrTask(data = training_data[ind, ], target = target_colname)
+			}	
 			fv <- mlr::generateFilterValuesData(resampled_task, method = m)
 			fv$data
 		})
