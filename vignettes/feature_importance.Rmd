@@ -73,11 +73,11 @@ This behavior is triggered by the `class()` of the target.
 If the target is not an `integer`, `character` or `factor`, `feature_importance()` attemps to create a regression task.
 Some methods, like `FSelectorRcpp_information.gain` will warn you that they are discretizing numeric input.
 
-```{r feature importance regr}
+```{r regr}
 class(drivers_data[["SLOPE"]])
 varimp <- feature_importance(
   drivers_data, "SLOPE", 
-  methods = c("FSelectorRcpp_information.gain", "FSelector_chi.squared", "randomForest_importance"),
+  methods = c("FSelectorRcpp_information.gain", "randomForest_importance"),
   .iters = 10,
   .first = 10)
 varimp$p
