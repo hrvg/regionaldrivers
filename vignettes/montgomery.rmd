@@ -1,0 +1,130 @@
+---
+title: "Comparison with literature"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Comparison with literature}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 10,
+  fig.height = 10,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+# Libraries
+
+```{r setup}
+library(regionaldrivers)
+```
+
+# Data loading
+
+`SSCT_field_data` is loaded with the package.
+Here is what 10 random rows of each looks like:
+
+```{r data loading, echo = FALSE}
+SSCT_field_data %>% dplyr::sample_n(10) %>%
+	knitr::kable(digits = 3, format = "html", caption = "SSCT_field_data") %>% 
+	kableExtra::kable_styling(bootstrap_options = c("hover", "condensed")) %>% 
+	kableExtra::scroll_box(width = "7in", height = "5in")
+```
+
+# Drainage area versus slope plot
+
+```{r, echo = FALSE}
+library(ggplot2)
+library(scales)
+SSCT_field_data$SSCT.ward <- factor(SSCT_field_data$SSCT.ward, labels = c(
+				"Confined, cobble-boulder, steep deposit-pool",
+				"Unconfined, gravel, uniform",
+				"Unconfined, gravel, pool-riffle",
+				"Confined, gravel-cobble, bed undulating",
+				"Confined, cobble-boulder, step-pool",
+				"Confined, gravel-cobble, cascade/step-pool",
+				"Partly-confined, gravel-cobble, pool-riffle",
+				"Partly-confined, gravel-cobble, uniform",
+				"Confined, gravel-cobble, pool-riffle",
+				"Confined, gravel-cobble, uniform"
+				))
+
+MandB_type <- function(str){
+	if(grepl("cascade", str)) return("cascade")
+	if(grepl("uniform", str)) return("plane-bed")
+	if(grepl("step", str)) return("step-pool")
+	if(grepl("riffle", str)) return("pool-riffle")
+	return("n/a")
+}
+SSCT_field_data$type <- factor(sapply(SSCT_field_data$SSCT.ward, MandB_type), labels = c("cascade", "plane-bed", "step-pool", "pool-riffle", "n/a"))
+
+
+colors = c("#DA0B98", "#3DF5F5", "#086491", "#AD25F4", "#AA0941", "#91080A", "#3D3EF5", "#0B51DA", "#580DF2", "#C00AC2")
+			
+
+p_ac <- ggplot(SSCT_field_data %>% dplyr::mutate(Ac_m2 = Ac * 1e6), aes(x = Ac_m2, y = slope, group = SSCT.ward, color = SSCT.ward, shape = type)) +
+	geom_point() +
+	scale_shape_manual(labels = c("cascade", "plane-bed", "step-pool", "pool-riffle", "n/a"), values = c(0, 1, 15, 19, 2),
+                     guide = guide_legend(override.aes = list(colour = 1))) +
+	scale_color_manual(values = colors, 
+                    guide = guide_legend(override.aes = list(shape = 18))) +
+	ggplot2::scale_x_log10(
+	breaks = scales::trans_breaks('log10', function(x) 10^x),
+	labels = scales::trans_format('log10', scales::math_format(10^.x))
+	) +
+	ggplot2::scale_y_log10(
+	breaks = scales::trans_breaks('log10', function(x) 10^x),
+	labels = scales::trans_format('log10', scales::math_format(10^.x))
+	) +
+	labs(x = "Drainage area [m2]", y = "Slope [m/m]", color = "Byrne et al. class", shape = "Montgomery and Buffington class") +
+	coord_equal() +
+	theme_minimal()
+(p_ac)
+```
+
+# Slope versus relative roughness
+
+```{r, echo = FALSE}
+p_slope <- ggplot(SSCT_field_data %>% dplyr::mutate(relative_roughness = D84 * 1e-3 / bf.d), aes(x = slope, y = relative_roughness, group = SSCT.ward, color = SSCT.ward, shape = type)) +
+	labs(y = "d84 / bf.d [m/m]", x = "Slope [m/m]", color = "Byrne et al. class", shape = "Montgomery and Buffington class",title = "Slope versus relative roughness", subtitle = "Full domain") +
+	geom_point() +
+	scale_shape_manual(labels = c("cascade", "plane-bed", "step-pool", "pool-riffle", "n/a"), values = c(0, 1, 15, 19, 2),
+                     guide = guide_legend(override.aes = list(colour = 1))) +
+	scale_color_manual(values = colors, 
+                    guide = guide_legend(override.aes = list(shape = 18))) +
+	theme_minimal()
+(p_slope + ylim(0,1) + xlim(0, 0.2) + labs(subtitle = "Domain limited to domain from Montgomery and Buffington"))
+(p_slope)
+```
+
+# UMAP
+
+```{r}
+library(umap)
+
+SSCT_umap_data <- SSCT_field_data %>% 
+	dplyr::select(Ac, bf.d, bf.w, bf.w.d, CV_bf.d, CV_bf.w, D50, D84, slope, vc.dist) %>%
+	dplyr::mutate_all(scales::rescale)
+
+UMAP_embedding <- umap::umap(SSCT_umap_data, metric = "euclidean", verbose = TRUE, knn.repeat = 10)
+
+SSCT_labels <- SSCT_field_data %>% dplyr::select(SSCT.ward, SiteID, type)
+
+plot_df <- cbind(UMAP_embedding$layout, SSCT_labels)
+colnames(plot_df) <- c("x", "y", "label", "SiteID", "type")
+
+p_umap <- ggplot(plot_df, aes(x = x, y = y, color = label, group = SiteID, shape = type)) + 
+	geom_point() +
+	scale_shape_manual(labels = c("cascade", "plane-bed", "step-pool", "pool-riffle", "n/a"), values = c(0, 1, 15, 19, 2),
+	                 guide = guide_legend(override.aes = list(colour = 1))) +
+	scale_color_manual(values = colors, 
+	                guide = guide_legend(override.aes = list(shape = 18))) +
+	theme_minimal()
+
+	(p_umap)
+```
