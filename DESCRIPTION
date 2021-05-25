@@ -32,7 +32,10 @@ Imports:
   rlang,
   rstatix,
   umap,
-  sp
+  sp,
+  FSelector,
+  FSelectorRcpp,
+  randomForest
 LazyData: true
 Suggests: 
   knitr,
@@ -41,10 +44,7 @@ Suggests:
   rmarkdown,
   covr,
   pkgdown,
-  gridExtra,
-  FSelector,
-  FSelectorRcpp,
-  randomForest
+  gridExtra
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 Depends: 
