@@ -62,7 +62,7 @@ The function resamples the dataset `iters` time, for this vignette, the number o
 class(drivers_data[["ward"]])
 varimp <- feature_importance(
   drivers_data, "ward", 
-  methods = c("FSelectorRcpp_information.gain", "FSelector_chi.squared", "randomForest_importance"),
+  methods = c("FSelector_information.gain", "FSelector_chi.squared", "randomForest_importance"),
   .iters = 10,
   .first = 10)
 varimp$p
@@ -77,7 +77,7 @@ Some methods, like `FSelectorRcpp_information.gain` will warn you that they are 
 class(drivers_data[["SLOPE"]])
 varimp <- feature_importance(
   drivers_data, "SLOPE", 
-  methods = c("FSelectorRcpp_information.gain", "randomForest_importance"),
+  methods = c("FSelector_information.gain", "randomForest_importance"),
   .iters = 10,
   .first = 10)
 varimp$p
