@@ -7,7 +7,7 @@
 feature_importance(
   training_data,
   target_colname,
-  methods = c("FSelectorRcpp_information.gain"),
+  filter_methods = c("FSelectorRcpp_information.gain"),
   .iters = 500,
   .first = 30,
   .split = 0.8,
@@ -20,7 +20,7 @@ feature_importance(
 
 \item{target_colname}{`character` the name of the column containing the target (output)}
 
-\item{methods}{`list` of `character` accepted by `mlr::generateFilterValuesData()`}
+\item{filter_methods}{`list` of `character` accepted by `mlr::generateFilterValuesData()`}
 
 \item{.iters}{`numeric` number of iterations for the subsampling, default to 500}
 
