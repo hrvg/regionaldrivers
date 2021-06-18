@@ -3,7 +3,7 @@ title: "Pair-wise statistical comparisons"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Pair-wise statistical comparisons}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{rmarkdown::render}
   %\VignetteEncoding{UTF-8}
 ---
 

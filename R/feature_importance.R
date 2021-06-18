@@ -13,8 +13,16 @@
 #' @import doFuture
 #' @keywords function
 #' @export
-feature_importance <- function(training_data, target_colname, filter_methods = c("FSelectorRcpp_information.gain"), .iters = 500, .first = 30, .split = .8, .stratify = TRUE, .seed = 1789){
-	df <- m <- NULL
+feature_importance <- function(
+	training_data,
+	target_colname,
+	filter_methods = c("FSelectorRcpp_information.gain"),
+	.iters = 500,
+	.first = 30,
+	.split = .8,
+	.stratify = TRUE,
+	.seed = 1789) {
+	df <- ind <- m <- NULL
 	set.seed(.seed)
 	target <- training_data[[target_colname]]
 	training_data <- training_data %>% dplyr::select(-target_colname) %>% sanitize_data()
@@ -29,8 +37,8 @@ feature_importance <- function(training_data, target_colname, filter_methods = c
 
 	}
 	rs <- mlr::makeResampleInstance(resampleDesc, task)$train.inds
-	feature_importances <- 	lapply(filter_methods, function(m){
-		fvs <- lapply(rs, function(ind){
+	feature_importances <- 	foreach(m = filter_methods) %do% {
+		fvs <- foreach(ind = rs, .combine = rbind) %do% {
 			set.seed(.seed)
 			if (is.factor(target) || is.integer(target) || is.character(target)){
 				resampled_task <- mlr::makeClassifTask(data = training_data[ind, ], target = target_colname)
@@ -38,16 +46,15 @@ feature_importance <- function(training_data, target_colname, filter_methods = c
 				resampled_task <- mlr::makeRegrTask(data = training_data[ind, ], target = target_colname)
 			}	
 			fv <- mlr::generateFilterValuesData(resampled_task, method = m)
-			fv$data
-		})
-		df <- do.call(rbind, fvs)
-		df <- df %>%
-			dplyr::group_by(.data$name) %>%
-			dplyr::summarize(Overall = mean(.data$value)) %>%
+			return(as.data.frame(fv$data))
+		}
+		df <- fvs %>% 
 			dplyr::rename(var = .data$name) %>%
+			dplyr::group_by(.data$var) %>%
+			dplyr::summarize(Overall = mean(.data$value)) %>%
 			dplyr::arrange(-.data$Overall)
 		return(df)
-	})
+	}
 	p_field_data <- foreach(df = feature_importances, m = filter_methods) %do% {
 		make_feature_importance_plot(df, first = .first) + ggplot2::labs(x = "value", title = m)
 	}

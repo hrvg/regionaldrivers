@@ -3,7 +3,7 @@ title: "Feature importance"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Feature importance}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{rmarkdown::render}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -62,7 +62,7 @@ The function resamples the dataset `iters` time, for this vignette, the number o
 class(drivers_data[["ward"]])
 varimp <- feature_importance(
   drivers_data, "ward", 
-  filter_methods = c("FSelector_information.gain", "FSelector_chi.squared", "randomForest_importance"),
+  filter_methods = c("FSelector_information.gain", "randomForest_importance"),
   .iters = 10,
   .first = 10)
 varimp$p

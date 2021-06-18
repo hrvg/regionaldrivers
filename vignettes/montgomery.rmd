@@ -3,7 +3,7 @@ title: "Comparison with literature"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Comparison with literature}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{rmarkdown::render}
   %\VignetteEncoding{UTF-8}
 ---
 
