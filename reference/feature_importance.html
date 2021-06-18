@@ -136,7 +136,7 @@
     <pre class="usage"><span class='fu'>feature_importance</span><span class='op'>(</span>
   <span class='va'>training_data</span>,
   <span class='va'>target_colname</span>,
-  methods <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"FSelectorRcpp_information.gain"</span><span class='op'>)</span>,
+  filter_methods <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"FSelectorRcpp_information.gain"</span><span class='op'>)</span>,
   .iters <span class='op'>=</span> <span class='fl'>500</span>,
   .first <span class='op'>=</span> <span class='fl'>30</span>,
   .split <span class='op'>=</span> <span class='fl'>0.8</span>,
@@ -156,7 +156,7 @@
       <td><p>`character` the name of the column containing the target (output)</p></td>
     </tr>
     <tr>
-      <th>methods</th>
+      <th>filter_methods</th>
       <td><p>`list` of `character` accepted by `mlr::generateFilterValuesData()`</p></td>
     </tr>
     <tr>
