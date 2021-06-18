@@ -21,8 +21,7 @@ knitr::opts_chunk$set(
 # Libraries
 
 ```{r setup}
-# library(regionaldrivers)
-devtools::load_all()
+library(regionaldrivers)
 ```
 
 # Data loading
@@ -82,7 +81,7 @@ p_ac <- ggplot(SSCT_field_data %>% dplyr::mutate(Ac_m2 = Ac * 1e6), aes(x = Ac_m
 	breaks = scales::trans_breaks('log10', function(x) 10^x),
 	labels = scales::trans_format('log10', scales::math_format(10^.x))
 	) +
-	labs(x = "Drainage area [m2]", y = "Slope [m/m]", color = "Byrne et al. class", shape = "Montgomery and Buffington class") +
+	labs(x = expression(paste("Drainage area [", m^2,"]")), y = "Slope [m/m]", color = "California Channel Types", shape = "Montgomery and Buffington class") +
 	coord_equal() +
 	theme_minimal()
 (p_ac)
@@ -92,7 +91,7 @@ p_ac <- ggplot(SSCT_field_data %>% dplyr::mutate(Ac_m2 = Ac * 1e6), aes(x = Ac_m
 
 ```{r, echo = FALSE}
 p_slope <- ggplot(SSCT_field_data %>% dplyr::mutate(relative_roughness = D84 * 1e-3 / bf.d), aes(x = slope, y = relative_roughness, group = SSCT.ward, color = SSCT.ward, shape = type)) +
-	labs(y = "d84 / bf.d [m/m]", x = "Slope [m/m]", color = "Byrne et al. class", shape = "Montgomery and Buffington class",title = "Slope versus relative roughness", subtitle = "Full domain") +
+	labs(y = "d84 / bf.d [m/m]", x = "Slope [m/m]", color = "California Channel Types", shape = "Montgomery and Buffington class",title = "Slope versus relative roughness", subtitle = "Full domain") +
 	geom_point() +
 	scale_shape_manual(labels = c("cascade", "plane-bed", "step-pool", "pool-riffle", "n/a"), values = c(0, 1, 15, 19, 2),
                      guide = guide_legend(override.aes = list(colour = 1))) +

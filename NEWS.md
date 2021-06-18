@@ -1,3 +1,9 @@
+# regionaldrivers 0.3
+
+Enhancements.
+
+A vignette describing the comparison with previous geomorphic classification was added.
+
 # regionaldrivers 0.2
 
 New features.
@@ -7,7 +13,7 @@ New features.
 	+ `make_feature_importance_plot()`
 	+ `feature_importance()`
 
-Enhancements
+Enhancements.
 
 A vignette describing the estimation of feature importance was added.
 
