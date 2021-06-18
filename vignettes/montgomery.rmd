@@ -21,7 +21,8 @@ knitr::opts_chunk$set(
 # Libraries
 
 ```{r setup}
-library(regionaldrivers)
+# library(regionaldrivers)
+devtools::load_all()
 ```
 
 # Data loading
@@ -104,6 +105,8 @@ p_slope <- ggplot(SSCT_field_data %>% dplyr::mutate(relative_roughness = D84 * 1
 
 # UMAP
 
+## 2D
+
 ```{r}
 library(umap)
 
@@ -111,7 +114,7 @@ SSCT_umap_data <- SSCT_field_data %>%
 	dplyr::select(Ac, bf.d, bf.w, bf.w.d, CV_bf.d, CV_bf.w, D50, D84, slope, vc.dist) %>%
 	dplyr::mutate_all(scales::rescale)
 
-UMAP_embedding <- umap::umap(SSCT_umap_data, metric = "euclidean", verbose = TRUE, knn.repeat = 10)
+UMAP_embedding <- umap::umap(SSCT_umap_data, metric = "euclidean", verbose = TRUE, knn.repeat = 10, n_components = 2)
 
 SSCT_labels <- SSCT_field_data %>% dplyr::select(SSCT.ward, SiteID, type)
 
@@ -127,4 +130,20 @@ p_umap <- ggplot(plot_df, aes(x = x, y = y, color = label, group = SiteID, shape
 	theme_minimal()
 
 	(p_umap)
+```
+
+## 3D
+
+```{r}
+UMAP_embedding <- umap::umap(SSCT_umap_data, metric = "euclidean", verbose = TRUE, knn.repeat = 10, n_components = 3)
+plotly::plot_ly(
+	x=UMAP_embedding$layout[, 1],
+	y=UMAP_embedding$layout[, 2],
+	z=UMAP_embedding$layout[, 3],
+	type="scatter3d",
+	size = 2,
+	mode="markers",
+	color = SSCT_field_data$SSCT.ward, 
+	colors=colors
+)
 ```
